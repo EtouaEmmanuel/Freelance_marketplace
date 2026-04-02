@@ -47,11 +47,61 @@ if ($project) {
   <?php if (!$project): ?>
     <p class="notice">Project not found.</p>
   <?php else: ?>
-    <h2 class="section-title"><?php echo htmlspecialchars($project['title']); ?></h2>
-    <p><?php echo htmlspecialchars($project['description']); ?></p>
-    <p><strong>Client:</strong> <?php echo htmlspecialchars($project['full_name']); ?></p>
-    <p><strong>Budget:</strong> $<?php echo number_format($project['budget_min']); ?> - $<?php echo number_format($project['budget_max']); ?></p>
-    <p><strong>Status:</strong> <?php echo htmlspecialchars(ucfirst($project['status'])); ?></p>
+    <div class="project-hero">
+      <div>
+        <div class="project-hero-top">
+          <span class="badge"><?php echo htmlspecialchars(ucfirst($project['status'])); ?></span>
+          <span class="pill">Verified client</span>
+        </div>
+        <h2 class="project-title"><?php echo htmlspecialchars($project['title']); ?></h2>
+        <p class="project-sub"><?php echo htmlspecialchars($project['description']); ?></p>
+        <div class="project-meta">
+          <span>Client: <?php echo htmlspecialchars($project['full_name']); ?></span>
+          <span>Budget: $<?php echo number_format($project['budget_min']); ?> - $<?php echo number_format($project['budget_max']); ?></span>
+          <span>Category: <?php echo htmlspecialchars($project['category']); ?></span>
+        </div>
+        <div class="project-highlights">
+          <div>
+            <strong>3</strong>
+            <span>Active bids</span>
+          </div>
+          <div>
+            <strong>4.8</strong>
+            <span>Client rating</span>
+          </div>
+          <div>
+            <strong>5 days</strong>
+            <span>Avg response</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3>Project packages</h3>
+        <p class="muted">Choose a lane to propose the best scope.</p>
+        <div class="package-grid">
+          <div class="package">
+            <h4>Starter</h4>
+            <p>Quick audit + delivery plan.</p>
+            <strong>$<?php echo number_format($project['budget_min']); ?></strong>
+            <span>Delivery in 5 days</span>
+          </div>
+          <div class="package featured">
+            <h4>Growth</h4>
+            <p>Design + build with weekly check-ins.</p>
+            <strong>$<?php echo number_format(($project['budget_min'] + $project['budget_max']) / 2); ?></strong>
+            <span>Delivery in 12 days</span>
+          </div>
+          <div class="package">
+            <h4>Scale</h4>
+            <p>Full implementation + handoff.</p>
+            <strong>$<?php echo number_format($project['budget_max']); ?></strong>
+            <span>Delivery in 20 days</span>
+          </div>
+        </div>
+        <a class="btn" href="#bid-form">Submit a proposal</a>
+        <p class="micro">Payments are protected by escrow milestones.</p>
+      </div>
+    </div>
 
     <?php if ($message): ?>
       <div class="<?php echo strpos($message, 'successfully') !== false ? 'success' : 'notice'; ?>">
@@ -59,46 +109,96 @@ if ($project) {
       </div>
     <?php endif; ?>
 
-    <div class="section">
-      <h3 class="section-title">Bids</h3>
-      <?php if (empty($bids)): ?>
-        <p>No bids yet. Be the first to apply.</p>
-      <?php else: ?>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Freelancer</th>
-              <th>Bid</th>
-              <th>Delivery</th>
-              <th>Proposal</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($bids as $bid): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($bid['full_name']); ?></td>
-                <td>$<?php echo number_format($bid['bid_amount']); ?></td>
-                <td><?php echo (int)$bid['delivery_days']; ?> days</td>
-                <td><?php echo htmlspecialchars($bid['cover_letter']); ?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      <?php endif; ?>
-    </div>
+    <div class="project-layout">
+      <div class="project-main">
+        <div class="project-section">
+          <h3>Overview</h3>
+          <ul class="feature-list">
+            <li>Project scope approved and ready to assign.</li>
+            <li>Expect clear milestones and fast feedback cycles.</li>
+            <li>Open to small team proposals.</li>
+          </ul>
+        </div>
 
-    <div class="section">
-      <h3 class="section-title">Place a bid</h3>
-      <?php if (!current_user()): ?>
-        <p>Please <a href="login.php">log in</a> to submit a bid.</p>
-      <?php else: ?>
-        <form class="form" method="post">
-          <input type="number" step="0.01" name="bid_amount" placeholder="Bid amount" required />
-          <input type="number" name="delivery_days" placeholder="Delivery days" required />
-          <textarea name="cover_letter" rows="4" placeholder="Short proposal" required></textarea>
-          <button class="btn" type="submit">Submit bid</button>
-        </form>
-      <?php endif; ?>
+        <div class="project-section">
+          <h3>Frequently asked</h3>
+          <div class="faq">
+            <div>
+              <strong>Can I suggest a different timeline?</strong>
+              <p class="muted">Yes. Include it in your proposal and explain tradeoffs.</p>
+            </div>
+            <div>
+              <strong>Is there a preferred stack?</strong>
+              <p class="muted">Open to modern PHP, React, or polished no-code builds.</p>
+            </div>
+            <div>
+              <strong>How many rounds of revisions?</strong>
+              <p class="muted">Two planned feedback rounds with async check-ins.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-section">
+          <h3>Recent bids</h3>
+          <?php if (empty($bids)): ?>
+            <p>No bids yet. Be the first to apply.</p>
+          <?php else: ?>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Freelancer</th>
+                  <th>Bid</th>
+                  <th>Delivery</th>
+                  <th>Proposal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($bids as $bid): ?>
+                  <tr>
+                    <td><?php echo htmlspecialchars($bid['full_name']); ?></td>
+                    <td>$<?php echo number_format($bid['bid_amount']); ?></td>
+                    <td><?php echo (int)$bid['delivery_days']; ?> days</td>
+                    <td><?php echo htmlspecialchars($bid['cover_letter']); ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          <?php endif; ?>
+        </div>
+      </div>
+
+      <aside class="project-side">
+        <div class="seller-card">
+          <h3>Client profile</h3>
+          <div class="seller-meta">
+            <div class="avatar"><?php echo strtoupper(substr($project['full_name'], 0, 1)); ?></div>
+            <div>
+              <strong><?php echo htmlspecialchars($project['full_name']); ?></strong>
+              <span class="muted">Repeat client • 12 hires</span>
+            </div>
+          </div>
+          <div class="seller-badges">
+            <span>Fast replies</span>
+            <span>Payments on time</span>
+            <span>Detailed briefs</span>
+          </div>
+          <button class="btn secondary" type="button">Message client</button>
+        </div>
+
+        <div class="project-section" id="bid-form">
+          <h3>Place a bid</h3>
+          <?php if (!current_user()): ?>
+            <p>Please <a href="login.php">log in</a> to submit a bid.</p>
+          <?php else: ?>
+            <form class="form" method="post">
+              <input type="number" step="0.01" name="bid_amount" placeholder="Bid amount" required />
+              <input type="number" name="delivery_days" placeholder="Delivery days" required />
+              <textarea name="cover_letter" rows="4" placeholder="Short proposal" required></textarea>
+              <button class="btn" type="submit">Submit bid</button>
+            </form>
+          <?php endif; ?>
+        </div>
+      </aside>
     </div>
   <?php endif; ?>
 </section>

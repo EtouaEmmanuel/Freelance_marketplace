@@ -19,6 +19,9 @@ $user = current_user();
       <a href="chat.php">Chat</a>
       <a href="payments.php">Payments</a>
       <a href="profile.php">Profile</a>
+      <?php if ($user && ($user['role'] ?? '') === 'admin'): ?>
+        <a href="admin.php">Admin</a>
+      <?php endif; ?>
       <?php if ($user): ?>
         <a href="logout.php">Logout</a>
       <?php else: ?>

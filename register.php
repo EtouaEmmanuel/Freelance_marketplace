@@ -13,6 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name === '' || $email === '' || $password === '') {
         $error = 'Please fill in all required fields.';
+    } elseif (strtolower($email) === 'admin123@gmail.com') {
+        $error = 'This email is reserved for the platform administrator.';
+    } elseif (!in_array($role, ['freelancer', 'client'], true)) {
+        $error = 'Invalid role selection.';
     } else {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $mysqli->prepare("INSERT INTO users (full_name, email, role, password_hash) VALUES (?, ?, ?, ?)");

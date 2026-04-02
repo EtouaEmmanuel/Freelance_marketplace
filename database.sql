@@ -84,7 +84,7 @@ CREATE TABLE payments (
 );
 
 INSERT INTO users (role, full_name, email, password_hash, title, bio, skills, location) VALUES
-('admin', 'Amina Mensah', 'admin@taskweave.test', '$2y$10$MhQix4guSn5KCtjqNFOq5Ox7mShuNflMQRdYlXNMJe7tY7OKAXLyS', 'Marketplace Admin', 'Oversees platform trust, safety, and operations.', 'Compliance, Trust & Safety', 'Douala, CM'),
+('admin', 'admin123', 'admin123@gmail.com', '$2y$10$1eGC0ToUtyvgVDHzFhzPCewnFQ9/a/6QnsFfggwEr1m5nZnDhJPki', 'Platform Administrator', 'Manages users, projects, bids, and payments across the platform.', 'Platform Operations, Trust & Safety', 'Douala, CM'),
 ('client', 'Jordan Blake', 'client@taskweave.test', '$2y$10$MhQix4guSn5KCtjqNFOq5Ox7mShuNflMQRdYlXNMJe7tY7OKAXLyS', 'Product Lead', 'Building a portfolio of digital experiences for emerging brands.', 'Product, UX, Strategy', 'Austin, TX'),
 ('freelancer', 'Chloe Park', 'freelancer@taskweave.test', '$2y$10$MhQix4guSn5KCtjqNFOq5Ox7mShuNflMQRdYlXNMJe7tY7OKAXLyS', 'Full-stack Developer', 'Specializes in fast MVP builds, clean UI, and scalable backends.', 'PHP, MySQL, HTML, CSS', 'Seoul, KR'),
 ('freelancer', 'Tariq Ncube', 'tariq@taskweave.test', '$2y$10$MhQix4guSn5KCtjqNFOq5Ox7mShuNflMQRdYlXNMJe7tY7OKAXLyS', 'Brand Designer', 'Creates bold brand systems and digital identities.', 'Branding, Visual Design', 'Cape Town, ZA');

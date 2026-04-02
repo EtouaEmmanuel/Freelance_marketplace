@@ -14,25 +14,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $result ? $result->fetch_assoc() : null;
 
     if ($user && password_verify($password, $user['password_hash'])) {
+        if ($user['role'] === 'admin' && strtolower($user['email']) !== 'admin123@gmail.com') {
+            $error = 'Invalid email or password.';
+        } else {
         $_SESSION['user'] = [
             'id' => $user['id'],
             'full_name' => $user['full_name'],
             'email' => $user['email'],
             'role' => $user['role'],
         ];
-        header('Location: projects.php');
+        if ($user['role'] === 'admin') {
+            header('Location: admin.php');
+        } else {
+            header('Location: projects.php');
+        }
         exit;
+        }
     }
 
-    $error = 'Invalid email or password.';
+    if ($error === '') {
+        $error = 'Invalid email or password.';
+    }
 }
 
 include __DIR__ . '/includes/header.php';
 ?>
 <section class="section container">
   <h2 class="section-title">Login</h2>
-  <p>Demo accounts: <strong>client@taskweave.test</strong> or <strong>freelancer@taskweave.test</strong>. Password: <strong>Password123!</strong></p>
-  <p>No account yet? <a href="register.php">Create one here</a>.</p>
+  <!-- <p>Demo accounts: <strong>client@taskweave.test</strong> or <strong>freelancer@taskweave.test</strong>. Password: <strong>Password123!</strong></p> -->
+  <p>No account yet? <a href="register.php"> Create one here</a>.</p>
   <?php if ($error): ?>
     <div class="notice"><?php echo htmlspecialchars($error); ?></div>
   <?php endif; ?>
